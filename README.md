@@ -217,7 +217,16 @@ Each version will be **independently stable and tagged**.
 
 ## 🖼️ Screenshots
 
-Screenshots will be added after each phase to demonstrate UI and feature evolution.
+<img width="1920" height="1018" alt="1" src="https://github.com/user-attachments/assets/a67a7f59-a84c-451e-b273-5f29dd9fdd19" />
+<img width="1920" height="1020" alt="2" src="https://github.com/user-attachments/assets/b60b9ea2-055a-4223-912f-959b46bd031a" />
+<img width="1920" height="1014" alt="3" src="https://github.com/user-attachments/assets/97b77d90-c752-4d0d-8b99-66f19a3045bd" />
+<img width="1920" height="1014" alt="4" src="https://github.com/user-attachments/assets/62ee1c23-ab92-4644-8db1-56b1419fe190" />
+<img width="1920" height="1010" alt="5" src="https://github.com/user-attachments/assets/8fc55f61-bf72-4c92-ad94-1795407ff591" />
+<img width="1920" height="1014" alt="6" src="https://github.com/user-attachments/assets/496ca625-6cdd-402d-9f17-64d3d14cbe10" />
+<img width="1920" height="1011" alt="7" src="https://github.com/user-attachments/assets/864c3dc1-f48f-4dd6-b8ab-834a9c28a3e3" />
+<img width="1920" height="1010" alt="8" src="https://github.com/user-attachments/assets/f29b6278-7b88-44a6-9a86-b360d55a3c85" />
+<img width="1920" height="1016" alt="9" src="https://github.com/user-attachments/assets/bbb51634-ea09-4d78-8c59-bfddd9deab7f" />
+<img width="1920" height="1018" alt="10" src="https://github.com/user-attachments/assets/1854501e-29b3-4e4e-9b59-752ce8763a96" />
 
 ---
 
