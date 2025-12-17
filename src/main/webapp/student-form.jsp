@@ -45,7 +45,7 @@
                        : (student != null ? student.getName() : "")
                    %>"
                    required
-                   pattern="[A-Za-z]{3,50}"
+                   pattern="[A-Za-z ]{3,50}"
                    title="Name must be 3-50 characters, letters and spaces only.">
             <p class="text-danger">
                 <%= request.getAttribute("nameError") != null ? request.getAttribute("nameError") : "" %>

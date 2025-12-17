@@ -2,8 +2,10 @@ package com.nsgacademy.crudmvc.web;
 
 import com.nsgacademy.crudmvc.dao.StudentDAO;
 import com.nsgacademy.crudmvc.exception.DAOException;
+import com.nsgacademy.crudmvc.model.Pagination;
 import com.nsgacademy.crudmvc.model.Student;
 
+import com.nsgacademy.crudmvc.model.StudentFilter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
@@ -58,8 +60,46 @@ public class StudentServlet extends HttpServlet {
     private void listStudents(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        List<Student> students = studentDAO.getAllStudents();
+        // 1. Read page parameter
+        // 2. Build Pagination
+        // 3. Build empty StudentFilter
+        // 4. Call countStudents(filter)
+        // 5. Call listStudents(filter, pagination)
+        // 6. Set attributes
+        // 7. Forward to JSP
+
+        int page = 1;
+        int pageSize = 5; // default
+
+        if (request.getParameter("page") != null) {
+            page = Integer.parseInt(request.getParameter("page"));
+        }
+
+        if (request.getParameter("pageSize") != null) {
+            pageSize = Integer.parseInt(request.getParameter("pageSize"));
+        }
+
+
+        Pagination pagination = new Pagination(page, pageSize);                     // 2. Build Pagination
+
+        StudentFilter filter = new StudentFilter(); // empty for Phase-1            // 3. Build empty StudentFilter
+        int totalRecords = studentDAO.countStudents(filter);                        // 4. Call countStudents(filter)
+        int totalPages = (int) Math.ceil((double) totalRecords / pageSize);
+
+//        if (page < 1)
+//            page = 1;
+//        if (page > totalPages && totalPages > 0)
+//            page = totalPages;
+//        pagination.setPage(page);
+
+        List<Student> students = studentDAO.listStudents(filter, pagination);       // 5. Call listStudents(filter, pagination)
+
         request.setAttribute("students", students);
+        request.setAttribute("currentPage", page);
+        request.setAttribute("pageSize", pageSize);
+        request.setAttribute("totalRecords", totalRecords);
+        request.setAttribute("totalPages", totalPages);
+
         request.getRequestDispatcher("student-list.jsp").forward(request, response);
     }
 
