@@ -13,15 +13,23 @@ A clean and structured **Java MVC CRUD application** built using **Servlets, JSP
 
 This repository acts as a **playground for evolving CRUD features step by step**, while keeping each phase stable, isolated, and maintainable.
 
+> **Current Stable Release:** `v1.1-pagination`
+
 ---
 
-## ✨ Features (Current Version – v1.0)
+## ✨ Features (Current Version – v1.1 Pagination)
 
 - **Core CRUD Operations**
   - Add Student
   - View Student List
   - Edit Student
   - Delete Student
+
+- **Pagination**
+  - Page navigation (First / Previous / Next / Last)
+  - Page size selection
+  - Go-to-page option
+  - Record range indicator
 
 - **Validation**
   - Client-side validation using HTML5
@@ -68,26 +76,33 @@ java-crud-mvc-playground
 │
 ├── src/main/java
 │   └── com/nsgacademy/crudmvc
-│       ├── model
-│       │   └── Student.java
+│       ├── model                # Domain & request models
+│       │   ├── Student.java
+│       │   ├── Pagination.java
+│       │   └── StudentFilter.java
 │       │
-│       ├── dao
+│       ├── dao                  # Data Access Layer (JDBC)
 │       │   └── StudentDAO.java
 │       │
-│       ├── exception
+│       ├── exception            # Centralized exception handling
 │       │   └── DAOException.java
 │       │
-│       ├── utils
+│       ├── utils                # Utility & Infrastructure classes
 │       │   └── JDBCUtils.java
 │       │
-│       └── web
+│       └── web                  # Controller layer (Servlets)
 │           └── StudentServlet.java
 │
-├── src/main/webapp
+├── src/main/webapp               # View Layer (JSP)
 │   ├── student-list.jsp
 │   ├── student-form.jsp
 │   └── error.jsp
 │
+├── screenshots                   # Versioned UI screenshots
+│   ├── v1.0
+│   └── v1.1
+│
+├── pom.xml
 └── README.md
 ```
 
@@ -215,18 +230,53 @@ Each version will be **independently stable and tagged**.
 
 ---
 
-## 🖼️ Screenshots
+## 🔮 Future Architecture Direction
 
-<img width="1920" height="1018" alt="1" src="https://github.com/user-attachments/assets/a67a7f59-a84c-451e-b273-5f29dd9fdd19" />
-<img width="1920" height="1020" alt="2" src="https://github.com/user-attachments/assets/b60b9ea2-055a-4223-912f-959b46bd031a" />
-<img width="1920" height="1014" alt="3" src="https://github.com/user-attachments/assets/97b77d90-c752-4d0d-8b99-66f19a3045bd" />
-<img width="1920" height="1014" alt="4" src="https://github.com/user-attachments/assets/62ee1c23-ab92-4644-8db1-56b1419fe190" />
-<img width="1920" height="1010" alt="5" src="https://github.com/user-attachments/assets/8fc55f61-bf72-4c92-ad94-1795407ff591" />
-<img width="1920" height="1014" alt="6" src="https://github.com/user-attachments/assets/496ca625-6cdd-402d-9f17-64d3d14cbe10" />
-<img width="1920" height="1011" alt="7" src="https://github.com/user-attachments/assets/864c3dc1-f48f-4dd6-b8ab-834a9c28a3e3" />
-<img width="1920" height="1010" alt="8" src="https://github.com/user-attachments/assets/f29b6278-7b88-44a6-9a86-b360d55a3c85" />
-<img width="1920" height="1016" alt="9" src="https://github.com/user-attachments/assets/bbb51634-ea09-4d78-8c59-bfddd9deab7f" />
-<img width="1920" height="1018" alt="10" src="https://github.com/user-attachments/assets/1854501e-29b3-4e4e-9b59-752ce8763a96" />
+This project is intentionally designed to align with modern Spring-based applications.
+
+Planned transitions:
+- Servlet MVC → Spring MVC
+- JDBC → Spring Data JPA
+- JSP → REST APIs + Frontend (React / Thymeleaf)
+- Manual pagination → `Pageable`
+- Manual filters → Specification / Criteria-based filtering
+
+---
+
+## ⚠️ Known Limitations (Intentional)
+
+- No Service layer (kept simple for Servlet MVC)
+- No ORM in early versions (JDBC used for clarity)
+- No REST APIs yet
+- Authentication not included in early versions
+
+---
+
+## 📸 Screenshots
+
+### v1.0 – Core CRUD Functionality
+
+| Feature                | Screenshot                                                   |
+|------------------------|--------------------------------------------------------------|
+| Student List           | ![List](screenshots/v1.0/list.png)                           |
+| Delete Confirmation    | ![Delete](screenshots/v1.0/delete-confirm.png)               |
+| Delete Success Message | ![Success](screenshots/v1.0/delete-success-message.png)      |
+| Add Student            | ![Add](screenshots/v1.0/add-student.png)                     |
+| Add Success Message    | ![Success](screenshots/v1.0/add-success-message.png)         |
+| Edit Student           | ![Edit](screenshots/v1.0/edit-student.png)                   |
+| Update Success Message | ![Success](screenshots/v1.0/update-success-message.png)      |
+| Validation – Name      | ![Name Validation](screenshots/v1.0/validation-name.png)     |
+| Validation – Mobile    | ![Mobile Validation](screenshots/v1.0/validation-mobile.png) |
+| Error Page             | ![Error](screenshots/v1.0/error-page.png)                    |
+
+---
+
+### v1.1 – Pagination Enhancements
+
+| Feature | Screenshot |
+|-------|------------|
+| Pagination Toolbar | ![Toolbar](screenshots/v1.1/pagination-toolbar.png) |
+| Pagination Navigation | ![Pagination](screenshots/v1.1/pagination-navigation.png) |
 
 ---
 
@@ -250,6 +300,15 @@ Contributions are welcome for:
 - Feature suggestions
 
 Please create a feature branch and submit a pull request.
+
+---
+
+## 🧹 Git Hygiene
+
+The repository includes a proper `.gitignore` to exclude:
+- IDE configuration files
+- Build artifacts
+- Temporary files and logs
 
 ---
 
