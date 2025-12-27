@@ -121,6 +121,8 @@
             <option value="10" <%= pageSize == 10 ? "selected" : "" %>>10</option>
             <option value="20" <%= pageSize == 20 ? "selected" : "" %>>20</option>
             <option value="50" <%= pageSize == 50 ? "selected" : "" %>>50</option>
+            <option value="200" <%= pageSize == 200 ? "selected" : "" %>>200</option>
+
         </select>
 
         <span class="text-muted">entries</span>
@@ -131,6 +133,7 @@
           class="d-flex align-items-center mb-0">
 
         <span class="me-2 text-muted">Go to page</span>
+        <input type="hidden" name="pageSize" value="<%=pageSize%>">
 
         <input type="number"
                name="page"
@@ -153,7 +156,7 @@
 
                 <!-- FIRST -->
                 <li class="page-item <%= (currentPage == 1 ? "disabled" : "") %>">
-                    <a class="page-link" href="students?page=1">
+                    <a class="page-link" href="students?page=1&pageSize=<%=pageSize%>">
                         <i class="fa-solid fa-backward-fast"></i>
                     </a>
                 </li>
@@ -161,7 +164,7 @@
                 <!-- PREVIOUS -->
                 <li class="page-item <%= (currentPage == 1 ? "disabled" : "") %>">
                     <a class="page-link"
-                       href="students?page=<%= currentPage - 1 %>">
+                       href="students?page=<%= currentPage - 1 %>&pageSize=<%=pageSize%>">
                         <i class="fa-solid fa-chevron-left"></i>
                     </a>
                 </li>
@@ -170,7 +173,7 @@
                 <% for (int i = 1; i <= totalPages; i++) { %>
                     <li class="page-item <%= (i == currentPage ? "active" : "") %>">
                         <a class="page-link"
-                           href="students?page=<%= i %>">
+                           href="students?page=<%= i %>&pageSize=<%=pageSize%>">
                             <%= i %>
                         </a>
                     </li>
@@ -179,7 +182,7 @@
                 <!-- NEXT -->
                 <li class="page-item <%= (currentPage == totalPages ? "disabled" : "") %>">
                     <a class="page-link"
-                       href="students?page=<%= currentPage + 1 %>">
+                       href="students?page=<%= currentPage + 1 %>&pageSize=<%=pageSize%>">
                         <i class="fa-solid fa-chevron-right"></i>
                     </a>
                 </li>
@@ -187,7 +190,7 @@
                 <!-- LAST -->
                 <li class="page-item <%= (currentPage == totalPages ? "disabled" : "") %>">
                     <a class="page-link"
-                       href="students?page=<%= totalPages %>">
+                       href="students?page=<%= totalPages %>&pageSize=<%=pageSize%>">
                         <i class="fa-solid fa-forward-fast"></i>
                     </a>
                 </li>

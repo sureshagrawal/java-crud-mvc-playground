@@ -86,11 +86,11 @@ public class StudentServlet extends HttpServlet {
         int totalRecords = studentDAO.countStudents(filter);                        // 4. Call countStudents(filter)
         int totalPages = (int) Math.ceil((double) totalRecords / pageSize);
 
-//        if (page < 1)
-//            page = 1;
-//        if (page > totalPages && totalPages > 0)
-//            page = totalPages;
-//        pagination.setPage(page);
+        if (page < 1)
+            page = 1;
+        if (page > totalPages && totalPages > 0)
+            page = totalPages;
+        pagination.setPage(page);
 
         List<Student> students = studentDAO.listStudents(filter, pagination);       // 5. Call listStudents(filter, pagination)
 
