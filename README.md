@@ -11,44 +11,49 @@
 
 A clean and structured **Java MVC CRUD application** built using **Servlets, JSP, JDBC, and PostgreSQL**, following industry-standard design principles.
 
-This repository acts as a **playground for evolving CRUD features step by step**, while keeping each phase stable, isolated, and maintainable.
+This repository is maintained as a **versioned learning playground**, where each release is **stable, tagged, and documented**, reflecting real-world development practices.
 
-> **Current Stable Release:** `v1.1-pagination`
+> **Current Stable Release:** `v1.2-search`
 
 ---
 
-## ✨ Features (Current Version – v1.1 Pagination)
+## ✨ Features (Current Version – v1.2 Search)
 
-- **Core CRUD Operations**
-  - Add Student
-  - View Student List
-  - Edit Student
-  - Delete Student
+### Core CRUD
+- Add Student
+- View Student List
+- Edit Student
+- Delete Student
 
-- **Pagination**
-  - Page navigation (First / Previous / Next / Last)
-  - Page size selection
-  - Go-to-page option
-  - Record range indicator
+### Pagination
+- First / Previous / Next / Last navigation
+- Page size selector
+- Go-to-page input
+- Record range display (e.g. 11 → 20 of 87)
+- Performance-friendly SQL using `LIMIT` and `OFFSET`
 
-- **Validation**
-  - Client-side validation using HTML5
-  - Server-side validation in Servlet
+### 🔍 Search (NEW in v1.2)
+- Search students by **name**, **email**, or **mobile**
+- Case-insensitive search (PostgreSQL `ILIKE`)
+- Search preserved across:
+  - Pagination navigation
+  - Page size change
+  - Go-to-page action
+- Seamlessly integrated with existing pagination logic
 
-- **UI / UX Enhancements**
-  - Responsive layout using Bootstrap
-  - Clean and consistent action buttons
-  - User-friendly messages and alerts
+### Validation
+- Client-side validation using HTML5
+- Server-side validation in Servlet
 
-- **Centralized Exception Handling**
-  - Custom `DAOException`
-  - Dedicated error page (`error.jsp`)
+### UI / UX
+- Responsive layout using Bootstrap 5
+- Properly aligned search bar and action buttons
+- Clean table layout with consistent spacing
+- User-friendly success and error messages
 
-- **Clean MVC Separation**
-  - Model → Data representation
-  - DAO → Database access
-  - Controller → Request handling
-  - View → UI rendering
+### Exception Handling
+- Centralized `DAOException`
+- Dedicated error page (`error.jsp`)
 
 ---
 
@@ -100,7 +105,8 @@ java-crud-mvc-playground
 │
 ├── screenshots                   # Versioned UI screenshots
 │   ├── v1.0
-│   └── v1.1
+│   ├── v1.1
+│   └── v1.2
 │
 ├── pom.xml
 └── README.md
@@ -110,29 +116,30 @@ java-crud-mvc-playground
 
 ## 🧠 Architecture Overview
 
-This application follows the **classic MVC (Model–View–Controller) architecture**.
+The application follows **classic MVC (Model–View–Controller)** architecture.
 
 - **Model**
-  - Represents application data (`Student`)
+  - Domain entities (`Student`)
+  - Request helpers (`Pagination`, `StudentFilter`)
 
 - **DAO Layer**
   - Contains all SQL queries
-  - Handles database interaction only
+  - Handles pagination and search at database level
 
 - **Controller (Servlet)**
   - Routes HTTP requests
   - Performs server-side validation
-  - Controls application flow
+  - Combines search + pagination logic
 
 - **View (JSP)**
   - Responsible only for UI rendering
-  - Contains no business logic
+  - No JDBC or business logic
 
-**Design Principles**
+### Design Rules Followed
 - No SQL in JSP
-- No JDBC code in Servlet
-- Clear separation of responsibilities
-- Easy to extend and maintain
+- No JDBC in Servlet
+- Pagination applied last in queries
+- Search logic reusable and extendable
 
 ---
 
@@ -163,46 +170,22 @@ private static final String PASS = "password";
 
 ---
 
-## ▶️ How to Run the Project (Detailed)
+## ▶️ How to Run the Application
 
-### 1️⃣ Prerequisites
-- JDK 17 or higher
-- PostgreSQL installed and running
-- Apache Tomcat 11
-- IDE (IntelliJ IDEA / Eclipse)
-
----
-
-### 2️⃣ Clone the Repository
-```bash
-git clone https://github.com/sureshagrawal/java-crud-mvc-playground.git
-```
-
----
-
-### 3️⃣ Create Database
-```sql
-CREATE DATABASE studentdb;
-```
-
-Create table using the schema provided above.
-
----
-
-### 4️⃣ Import Project into IDE
-- Open IDE
-- Import as **Maven Project**
-- Configure Apache Tomcat 11 in IDE
-
----
-
-### 5️⃣ Run Application
-- Deploy project on Tomcat
-- Access application at:
-
-```
-http://localhost:8080/<context-root>/students
-```
+1. Install **JDK 17+**
+2. Install and run **PostgreSQL**
+3. Create database `studentdb`
+4. Configure **Apache Tomcat 11**
+5. Clone repository:
+   ```bash
+   git clone https://github.com/sureshagrawal/java-crud-mvc-playground.git
+   ```
+6. Import project as **Maven Project**
+7. Deploy on Tomcat
+8. Access:
+   ```
+   http://localhost:8080/<context-root>/students
+   ```
 
 ---
 
@@ -210,21 +193,15 @@ http://localhost:8080/<context-root>/students
 
 This project follows **incremental, tagged releases** to ensure stability.
 
-| Version | Features |
-|------|--------|
-| v1.0-crud | Core CRUD (current stable) |
-| v1.1-pagination | Pagination |
-| v1.2-search | Search |
-| v1.3-sorting | Sorting |
-| v1.4-advanced-fields | Gender, DOB, Age Calculation |
-| v1.5-file-upload | Student Photo Upload |
-| v1.6-import | Import (CSV / Excel) |
-| v1.7-export | Export (CSV, Excel, PDF, HTML) |
-| v1.8-auth | Login System & Roles |
-| v1.9-audit | Audit Logs |
-| v2.0-deployment | Deployment Configuration |
-| v3.0-hibernate | Hibernate Migration |
-| v4.0-jpa | JPA Migration |
+| Version              | Features                                   |
+|----------------------|--------------------------------------------|
+| v1.0-crud            | Core CRUD (current stable)                 |
+| v1.1-pagination      | Pagination                                 |
+| v1.1.1-docs          | Documentation & screenshots                |
+| v1.1.2-bugfix        | Pagination bug fix (pageSize preservation) |
+| **v1.2-search**      | **Search with pagination (current)**       |
+| v1.3-sorting         | Sorting                                    |
+
 
 Each version will be **independently stable and tagged**.
 
@@ -280,6 +257,16 @@ Planned transitions:
 
 ---
 
+### v1.2 – Search with Pagination
+
+| Feature | Screenshot                                            |
+|-------|-------------------------------------------------------|
+| Search Bar | ![Toolbar](screenshots/v1.2/search-bar.png)           |
+| Search + Pagination | ![Toolbar](screenshots/v1.2/search-pagination.png)    |
+| Page Size Preserved | ![Toolbar](screenshots/v1.2/preserved-attributes.png) |
+
+---
+
 ## 🎯 Purpose of This Project
 
 - Learn MVC fundamentals deeply
@@ -288,6 +275,22 @@ Planned transitions:
 - Prepare an interview-ready project
 - Serve as a teaching and learning reference
 - Act as a base for ORM migration (Hibernate / JPA)
+
+---
+
+
+## 🔮 Future Roadmap
+
+- Import (CSV / Excel)
+- Export (CSV, Excel, PDF, HTML)
+- Advanced Fields (Gender, DOB, Age Calculation)
+- Student Photo Upload
+- Login system & Roles
+- Advanced filters
+- JSTL + EL (remove scriptlets)
+- Spring MVC migration
+- Hibernate / JPA integration
+- REST APIs + React frontend
 
 ---
 
