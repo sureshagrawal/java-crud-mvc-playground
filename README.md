@@ -7,17 +7,16 @@
 ![Tomcat](https://img.shields.io/badge/Tomcat-11-yellow)
 ![Bootstrap](https://img.shields.io/badge/Bootstrap-5-purple)
 ![MVC](https://img.shields.io/badge/Architecture-MVC-success)
-![License](https://img.shields.io/badge/License-Educational-lightgrey)
 
-A clean and structured **Java MVC CRUD application** built using **Servlets, JSP, JDBC, and PostgreSQL**, following industry-standard design principles.
+A clean and structured **Java MVC CRUD application** built using **Servlets, JSP, JDBC, and PostgreSQL**.
 
-This repository is maintained as a **versioned learning playground**, where each release is **stable, tagged, and documented**, reflecting real-world development practices.
+This repository is intentionally developed as a **versioned learning playground**, where every feature is added step-by-step, frozen, tagged, and documented — exactly how real projects evolve.
 
-> **Current Stable Release:** `v1.2-search`
+> **Current Stable Release:** `v1.3-sorting`
 
 ---
 
-## ✨ Features (Current Version – v1.2 Search)
+## ✨ Features (v1.3 – Sorting Release)
 
 ### Core CRUD
 - Add Student
@@ -32,45 +31,39 @@ This repository is maintained as a **versioned learning playground**, where each
 - Record range display (e.g. 11 → 20 of 87)
 - Performance-friendly SQL using `LIMIT` and `OFFSET`
 
-### 🔍 Search (NEW in v1.2)
+### 🔍 Search
 - Search students by **name**, **email**, or **mobile**
-- Case-insensitive search (PostgreSQL `ILIKE`)
-- Search preserved across:
-  - Pagination navigation
-  - Page size change
-  - Go-to-page action
-- Seamlessly integrated with existing pagination logic
+- Case-insensitive search (`ILIKE` in PostgreSQL)
+- Search preserved across pagination and page size changes
 
-### Validation
-- Client-side validation using HTML5
-- Server-side validation in Servlet
+### 🔃 Sorting (NEW in v1.3)
+- Sort by **ID, Name, Email, Mobile**
+- ASC / DESC toggle per column
+- Clear arrow indicators
+- Active column highlighting
+- Sorting preserved across pagination and page size changes
+- First-click always sorts ASC
 
-### UI / UX
-- Responsive layout using Bootstrap 5
-- Properly aligned search bar and action buttons
-- Clean table layout with consistent spacing
-- User-friendly success and error messages
-
-### Exception Handling
-- Centralized `DAOException`
-- Dedicated error page (`error.jsp`)
+### 🔄 Reset
+- One-click **full reset**
+- Clears search, sorting, pagination, and page size
+- Returns to default list view
 
 ---
+
 
 ## 🛠️ Technology Stack
 
 | Layer | Technology |
 |------|-----------|
-| Frontend (View) | JSP, HTML5, CSS3, Bootstrap 5 |
-| UI Icons | Font Awesome |
+| View | JSP, HTML5, CSS3, Bootstrap 5 |
 | Controller | Jakarta Servlet API |
-| Backend (Business Logic) | Java |
-| Database Access | JDBC |
+| Backend | Java 17+ |
+| Data Access | JDBC |
 | Database | PostgreSQL |
-| Application Server | Apache Tomcat 11 |
+| Server | Apache Tomcat 11 |
 | Build Tool | Maven |
-| Architecture Pattern | MVC (Model–View–Controller) |
-| Version Control | Git & GitHub |
+| Architecture | MVC |
 
 ---
 
@@ -106,7 +99,8 @@ java-crud-mvc-playground
 ├── screenshots                   # Versioned UI screenshots
 │   ├── v1.0
 │   ├── v1.1
-│   └── v1.2
+│   ├── v1.2
+│   └── v1.3
 │
 ├── pom.xml
 └── README.md
@@ -189,18 +183,18 @@ private static final String PASS = "password";
 
 ---
 
-## 🏷️ Versioning Strategy (Planned Roadmap)
+## 🏷️ Version History
 
 This project follows **incremental, tagged releases** to ensure stability.
 
-| Version              | Features                                   |
-|----------------------|--------------------------------------------|
-| v1.0-crud            | Core CRUD (current stable)                 |
-| v1.1-pagination      | Pagination                                 |
-| v1.1.1-docs          | Documentation & screenshots                |
-| v1.1.2-bugfix        | Pagination bug fix (pageSize preservation) |
-| **v1.2-search**      | **Search with pagination (current)**       |
-| v1.3-sorting         | Sorting                                    |
+| Version          | Features                                   |
+|------------------|--------------------------------------------|
+| v1.0-crud        | Core CRUD (current stable)                 |
+| v1.1-pagination  | Pagination                                 |
+| v1.1.1-docs      | Documentation & screenshots                |
+| v1.1.2-bugfix    | Pagination bug fix (pageSize preservation) |
+| v1.2-search**    | Search with pagination                     |
+| **v1.3-sorting** | **Sorting (current)**                      |
 
 
 Each version will be **independently stable and tagged**.
@@ -264,6 +258,19 @@ Planned transitions:
 | Search Bar | ![Toolbar](screenshots/v1.2/search-bar.png)           |
 | Search + Pagination | ![Toolbar](screenshots/v1.2/search-pagination.png)    |
 | Page Size Preserved | ![Toolbar](screenshots/v1.2/preserved-attributes.png) |
+
+---
+
+### v1.3 – Sorting 
+
+| Feature                | Screenshot                                              |
+|------------------------|---------------------------------------------------------|
+| Sorting-features       | ![Toolbar](screenshots/v1.3/sorting-features.png)       |
+| Sortable-columns       | ![Toolbar](screenshots/v1.3/sortable-columns.png)       |
+| Sort-toggle            | ![Toolbar](screenshots/v1.3/sort-toggle.png)            |
+| Search-Sort            | ![Toolbar](screenshots/v1.3/search-sort.png)            |
+| Search-Sort-pagination | ![Toolbar](screenshots/v1.3/search-sort-pagination.png) |
+| Reset-filters          | ![Toolbar](screenshots/v1.3/reset-filters.png)          |
 
 ---
 
