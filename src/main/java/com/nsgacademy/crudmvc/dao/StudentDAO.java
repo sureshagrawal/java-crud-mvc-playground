@@ -61,6 +61,11 @@ public class StudentDAO {
             sql += " WHERE name ILIKE ? OR email ILIKE ? OR mobile ILIKE ?";
         }
 
+        // 🔥 SORTING
+        sql += " ORDER BY " + filter.getSortBy() + " " + filter.getSortDir();
+
+
+        // 🔚 PAGINATION ALWAYS LAST
         sql += PAGINATION_SQL;
 
         try (Connection conn = JDBCUtils.getConnection();

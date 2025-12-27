@@ -60,16 +60,11 @@ public class StudentServlet extends HttpServlet {
     private void listStudents(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        // 1. Read page parameter
-        // 2. Build Pagination
-        // 3. Build empty StudentFilter
-        // 4. Call countStudents(filter)
-        // 5. Call listStudents(filter, pagination)
-        // 6. Set attributes
-        // 7. Forward to JSP
-
         int page = 1;
         int pageSize = 5; // default
+        String search = "";
+        String sortBy = "id";
+        String sortDir = "asc";
 
         if (request.getParameter("page") != null) {
             page = Integer.parseInt(request.getParameter("page"));
@@ -82,10 +77,23 @@ public class StudentServlet extends HttpServlet {
         Pagination pagination = new Pagination(page, pageSize);                     // 2. Build Pagination
 
         // 🔍 SEARCH
-        String search = request.getParameter("search");                     // 3. Build empty StudentFilter
+        if (request.getParameter("search") != null) {
+            search = request.getParameter("search");
+        }
 
-        StudentFilter filter = new StudentFilter();
+        // SORT
+        if (request.getParameter("sortBy") != null) {
+            sortBy = request.getParameter("sortBy");
+        }
+
+        if (request.getParameter("sortDir") != null) {
+            sortDir = request.getParameter("sortDir");
+        }
+
+        StudentFilter filter = new StudentFilter();                                 // 3. Build StudentFilter
         filter.setSearch(search);
+        filter.setSortBy(sortBy);
+        filter.setSortDir(sortDir);
 
         int totalRecords = studentDAO.countStudents(filter);                        // 4. Call countStudents(filter)
         int totalPages = (int) Math.ceil((double) totalRecords / pageSize);
@@ -104,6 +112,8 @@ public class StudentServlet extends HttpServlet {
         request.setAttribute("totalRecords", totalRecords);
         request.setAttribute("totalPages", totalPages);
         request.setAttribute("search", search); // ⭐ IMPORTANT
+        request.setAttribute("sortBy", filter.getSortBy());
+        request.setAttribute("sortDir", filter.getSortDir());
 
         request.getRequestDispatcher("student-list.jsp").forward(request, response);
     }
