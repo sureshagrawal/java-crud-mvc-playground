@@ -1,7 +1,18 @@
 package com.nsgacademy.crudmvc.model;
 
 public class StudentFilter {
-    // Phase-1: intentionally empty
-    // Phase-2: keyword
-    // Phase-3: advanced filters
+
+    private String search;
+
+    public boolean hasSearch() {
+        return search != null && !search.trim().isEmpty();
+    }
+
+    public String getSearch() {
+        return search;
+    }
+
+    public void setSearch(String search) {
+        this.search = search;
+    }
 }

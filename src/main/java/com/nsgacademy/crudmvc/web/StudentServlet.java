@@ -79,10 +79,14 @@ public class StudentServlet extends HttpServlet {
             pageSize = Integer.parseInt(request.getParameter("pageSize"));
         }
 
-
         Pagination pagination = new Pagination(page, pageSize);                     // 2. Build Pagination
 
-        StudentFilter filter = new StudentFilter(); // empty for Phase-1            // 3. Build empty StudentFilter
+        // 🔍 SEARCH
+        String search = request.getParameter("search");                     // 3. Build empty StudentFilter
+
+        StudentFilter filter = new StudentFilter();
+        filter.setSearch(search);
+
         int totalRecords = studentDAO.countStudents(filter);                        // 4. Call countStudents(filter)
         int totalPages = (int) Math.ceil((double) totalRecords / pageSize);
 
@@ -99,6 +103,7 @@ public class StudentServlet extends HttpServlet {
         request.setAttribute("pageSize", pageSize);
         request.setAttribute("totalRecords", totalRecords);
         request.setAttribute("totalPages", totalPages);
+        request.setAttribute("search", search); // ⭐ IMPORTANT
 
         request.getRequestDispatcher("student-list.jsp").forward(request, response);
     }

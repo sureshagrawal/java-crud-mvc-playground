@@ -25,10 +25,43 @@
     }
 %>
 
-<!-- ADD STUDENT -->
-<a href="students?action=new" class="btn btn-primary mb-3">
-    <i class="fa-solid fa-user-plus me-1"></i> Add Student
-</a>
+<%
+    int currentPage  = (Integer) request.getAttribute("currentPage");
+    int totalPages   = (Integer) request.getAttribute("totalPages");
+    int totalRecords = (Integer) request.getAttribute("totalRecords");
+    int pageSize     = (Integer) request.getAttribute("pageSize");
+
+    String search = (String) request.getAttribute("search");
+    if (search == null) search = "";
+
+    int start = (currentPage - 1) * pageSize + 1;
+    int end   = Math.min(start + pageSize - 1, totalRecords);
+%>
+
+<div class="d-flex justify-content-between align-items-center mb-3 flex-wrap">
+
+    <!-- ADD BUTTON -->
+    <a href="students?action=new" class="btn btn-primary">
+        <i class="fa-solid fa-user-plus me-1"></i> Add Student
+    </a>
+
+    <!-- SEARCH -->
+    <form action="students" method="get" class="d-flex">
+        <input type="hidden" name="pageSize" value="<%= pageSize %>">
+
+        <input type="text"
+               name="search"
+               value="<%= request.getAttribute("search") != null ? request.getAttribute("search") : "" %>"
+               class="form-control form-control-sm me-2"
+               style="width:220px;"
+               placeholder="Search name / email / mobile">
+
+        <button class="btn btn-sm btn-outline-primary">
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+    </form>
+</div>
+
 
 <table class="table table-bordered table-striped">
     <thead class="table-dark">
@@ -82,16 +115,6 @@
     </tbody>
 </table>
 
-<%
-    int currentPage  = (Integer) request.getAttribute("currentPage");
-    int totalPages   = (Integer) request.getAttribute("totalPages");
-    int totalRecords = (Integer) request.getAttribute("totalRecords");
-    int pageSize     = (Integer) request.getAttribute("pageSize");
-
-    int start = (currentPage - 1) * pageSize + 1;
-    int end   = Math.min(start + pageSize - 1, totalRecords);
-%>
-
 <!-- TOP TOOLBAR -->
 <div class="d-flex align-items-center justify-content-between mb-2 flex-wrap">
 
@@ -110,6 +133,8 @@
     <form action="students" method="get"
           class="d-flex align-items-center mb-0 me-4">
 
+        <input type="hidden" name="search" value="<%= search %>">
+
         <span class="me-2 text-muted">Show</span>
 
         <select name="pageSize"
@@ -122,7 +147,6 @@
             <option value="20" <%= pageSize == 20 ? "selected" : "" %>>20</option>
             <option value="50" <%= pageSize == 50 ? "selected" : "" %>>50</option>
             <option value="200" <%= pageSize == 200 ? "selected" : "" %>>200</option>
-
         </select>
 
         <span class="text-muted">entries</span>
@@ -132,8 +156,10 @@
     <form action="students" method="get"
           class="d-flex align-items-center mb-0">
 
-        <span class="me-2 text-muted">Go to page</span>
         <input type="hidden" name="pageSize" value="<%=pageSize%>">
+        <input type="hidden" name="search" value="<%= search %>">
+
+        <span class="me-2 text-muted">Go to page</span>
 
         <input type="number"
                name="page"
@@ -156,7 +182,7 @@
 
                 <!-- FIRST -->
                 <li class="page-item <%= (currentPage == 1 ? "disabled" : "") %>">
-                    <a class="page-link" href="students?page=1&pageSize=<%=pageSize%>">
+                    <a class="page-link" href="students?page=1&pageSize=<%=pageSize%>&search=<%= search %>">
                         <i class="fa-solid fa-backward-fast"></i>
                     </a>
                 </li>
@@ -164,7 +190,7 @@
                 <!-- PREVIOUS -->
                 <li class="page-item <%= (currentPage == 1 ? "disabled" : "") %>">
                     <a class="page-link"
-                       href="students?page=<%= currentPage - 1 %>&pageSize=<%=pageSize%>">
+                       href="students?page=<%= currentPage - 1 %>&pageSize=<%=pageSize%>&search=<%= search %>">
                         <i class="fa-solid fa-chevron-left"></i>
                     </a>
                 </li>
@@ -173,7 +199,7 @@
                 <% for (int i = 1; i <= totalPages; i++) { %>
                     <li class="page-item <%= (i == currentPage ? "active" : "") %>">
                         <a class="page-link"
-                           href="students?page=<%= i %>&pageSize=<%=pageSize%>">
+                           href="students?page=<%= i %>&pageSize=<%=pageSize%>&search=<%= search %>">
                             <%= i %>
                         </a>
                     </li>
@@ -182,7 +208,7 @@
                 <!-- NEXT -->
                 <li class="page-item <%= (currentPage == totalPages ? "disabled" : "") %>">
                     <a class="page-link"
-                       href="students?page=<%= currentPage + 1 %>&pageSize=<%=pageSize%>">
+                       href="students?page=<%= currentPage + 1 %>&pageSize=<%=pageSize%>&search=<%= search %>">
                         <i class="fa-solid fa-chevron-right"></i>
                     </a>
                 </li>
@@ -190,7 +216,7 @@
                 <!-- LAST -->
                 <li class="page-item <%= (currentPage == totalPages ? "disabled" : "") %>">
                     <a class="page-link"
-                       href="students?page=<%= totalPages %>&pageSize=<%=pageSize%>">
+                       href="students?page=<%= totalPages %>&pageSize=<%=pageSize%>&search=<%= search %>">
                         <i class="fa-solid fa-forward-fast"></i>
                     </a>
                 </li>

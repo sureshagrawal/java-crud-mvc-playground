@@ -52,13 +52,31 @@ public class StudentDAO {
     public List<Student> listStudents(StudentFilter filter, Pagination pagination) {
 
         List<Student> studentList = new ArrayList<>();
-        String sql = BASE_SELECT_SQL + PAGINATION_SQL;
+
+        String sql = BASE_SELECT_SQL;
+
+        boolean hasSearch = filter != null && filter.hasSearch();
+
+        if (hasSearch) {
+            sql += " WHERE name ILIKE ? OR email ILIKE ? OR mobile ILIKE ?";
+        }
+
+        sql += PAGINATION_SQL;
 
         try (Connection conn = JDBCUtils.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            ps.setInt(1, pagination.getPageSize());
-            ps.setInt(2, pagination.getOffset());
+            int index = 1;
+
+            if (hasSearch) {
+                String keyword = "%" + filter.getSearch().trim() + "%";
+                ps.setString(index++, keyword);
+                ps.setString(index++, keyword);
+                ps.setString(index++, keyword);
+            }
+
+            ps.setInt(index++, pagination.getPageSize());
+            ps.setInt(index, pagination.getOffset());
 
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
@@ -80,12 +98,27 @@ public class StudentDAO {
 
     public int countStudents(StudentFilter filter) {
 
-        try (Connection conn = JDBCUtils.getConnection();
-             PreparedStatement ps = conn.prepareStatement(COUNT_SQL);
-             ResultSet rs = ps.executeQuery()) {
+        String sql = COUNT_SQL;
 
-            if (rs.next()) {
-                return rs.getInt(1);
+        boolean hasSearch = filter != null && filter.hasSearch();
+
+        if (hasSearch) {
+            sql += " WHERE name ILIKE ? OR email ILIKE ? OR mobile ILIKE ?";
+        }
+
+        try (Connection conn = JDBCUtils.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            if (hasSearch) {
+                String keyword = "%" + filter.getSearch().trim() + "%";
+                ps.setString(1, keyword);
+                ps.setString(2, keyword);
+                ps.setString(3, keyword);
+            }
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next())
+                    return rs.getInt(1);
             }
 
         } catch (SQLException e) {
