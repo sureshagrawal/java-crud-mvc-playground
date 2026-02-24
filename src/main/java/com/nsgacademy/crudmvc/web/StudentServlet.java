@@ -6,6 +6,8 @@ import com.nsgacademy.crudmvc.model.Pagination;
 import com.nsgacademy.crudmvc.model.Student;
 
 import com.nsgacademy.crudmvc.model.StudentFilter;
+import com.nsgacademy.crudmvc.auth.model.User; // 🔥 NEW import for session user
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
@@ -66,6 +68,9 @@ public class StudentServlet extends HttpServlet {
         String sortBy = "id";
         String sortDir = "asc";
 
+        User user = (User) request.getSession().getAttribute("user"); // 🔥 get logged-in user
+        int userId = user.getId(); // 🔥 extract userId
+
         if (request.getParameter("page") != null) {
             page = Integer.parseInt(request.getParameter("page"));
         }
@@ -74,14 +79,12 @@ public class StudentServlet extends HttpServlet {
             pageSize = Integer.parseInt(request.getParameter("pageSize"));
         }
 
-        Pagination pagination = new Pagination(page, pageSize);                     // 2. Build Pagination
+        Pagination pagination = new Pagination(page, pageSize);
 
-        // 🔍 SEARCH
         if (request.getParameter("search") != null) {
             search = request.getParameter("search");
         }
 
-        // SORT
         if (request.getParameter("sortBy") != null) {
             sortBy = request.getParameter("sortBy");
         }
@@ -90,12 +93,12 @@ public class StudentServlet extends HttpServlet {
             sortDir = request.getParameter("sortDir");
         }
 
-        StudentFilter filter = new StudentFilter();                                 // 3. Build StudentFilter
+        StudentFilter filter = new StudentFilter();
         filter.setSearch(search);
         filter.setSortBy(sortBy);
         filter.setSortDir(sortDir);
 
-        int totalRecords = studentDAO.countStudents(filter);                        // 4. Call countStudents(filter)
+        int totalRecords = studentDAO.countStudents(filter, userId); // 🔥 pass userId
         int totalPages = (int) Math.ceil((double) totalRecords / pageSize);
 
         if (page < 1)
@@ -104,14 +107,14 @@ public class StudentServlet extends HttpServlet {
             page = totalPages;
         pagination.setPage(page);
 
-        List<Student> students = studentDAO.listStudents(filter, pagination);       // 5. Call listStudents(filter, pagination)
+        List<Student> students = studentDAO.listStudents(filter, pagination, userId); // 🔥 pass userId
 
         request.setAttribute("students", students);
         request.setAttribute("currentPage", page);
         request.setAttribute("pageSize", pageSize);
         request.setAttribute("totalRecords", totalRecords);
         request.setAttribute("totalPages", totalPages);
-        request.setAttribute("search", search); // ⭐ IMPORTANT
+        request.setAttribute("search", search);
         request.setAttribute("sortBy", filter.getSortBy());
         request.setAttribute("sortDir", filter.getSortDir());
 
@@ -125,14 +128,21 @@ public class StudentServlet extends HttpServlet {
 
     private void showEditForm(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        User user = (User) request.getSession().getAttribute("user"); // 🔥
+        int userId = user.getId(); // 🔥
+
         int id = Integer.parseInt(request.getParameter("id"));
-        Student student = studentDAO.getStudentById(id);
+        Student student = studentDAO.getStudentById(id, userId); // 🔥 pass userId
         request.setAttribute("student", student);
         request.getRequestDispatcher("student-form.jsp").forward(request, response);
     }
 
     private void insertStudent(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
+
+        User user = (User) request.getSession().getAttribute("user"); // 🔥
+        int userId = user.getId(); // 🔥
 
         String name = request.getParameter("name");
         String email = request.getParameter("email");
@@ -143,12 +153,15 @@ public class StudentServlet extends HttpServlet {
             return;
         }
 
-        studentDAO.insert(new Student(name.trim(), email.trim(), mobile.trim()));
+        studentDAO.insert(new Student(name.trim(), email.trim(), mobile.trim()), userId); // 🔥 pass userId
         response.sendRedirect("students?action=list&success=Added Successfully");
     }
 
     private void updateStudent(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
+
+        User user = (User) request.getSession().getAttribute("user"); // 🔥
+        int userId = user.getId(); // 🔥
 
         int id = Integer.parseInt(request.getParameter("id"));
         String name = request.getParameter("name");
@@ -162,15 +175,18 @@ public class StudentServlet extends HttpServlet {
             return;
         }
 
-        studentDAO.update(new Student(id, name.trim(), email.trim(), mobile.trim()));
+        studentDAO.update(new Student(id, name.trim(), email.trim(), mobile.trim()), userId); // 🔥 pass userId
         response.sendRedirect("students?action=list&success=Updated Successfully");
     }
 
     private void deleteStudent(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
 
+        User user = (User) request.getSession().getAttribute("user"); // 🔥
+        int userId = user.getId(); // 🔥
+
         int id = Integer.parseInt(request.getParameter("id"));
-        studentDAO.delete(id);
+        studentDAO.delete(id, userId); // 🔥 pass userId
         response.sendRedirect("students?action=list&success=Deleted Successfully");
     }
 

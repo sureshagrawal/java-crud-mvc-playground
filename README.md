@@ -187,13 +187,13 @@ private static final String PASS = "password";
 
 This project follows **incremental, tagged releases** to ensure stability.
 
-| Version          | Features                                   |
-|------------------|--------------------------------------------|
-| v1.0-crud        | Core CRUD (current stable)                 |
-| v1.1-pagination  | Pagination                                 |
-| v1.1.1-docs      | Documentation & screenshots                |
-| v1.1.2-bugfix    | Pagination bug fix (pageSize preservation) |
-| v1.2-search**    | Search with pagination                     |
+| Version        | Features                                   |
+|----------------|--------------------------------------------|
+| v1.0-crud      | Core CRUD (current stable)                 |
+| v1.1-pagination | Pagination                                 |
+| v1.1.1-docs    | Documentation & screenshots                |
+| v1.1.2-bugfix  | Pagination bug fix (pageSize preservation) |
+| v1.2-search    | Search with pagination                     |
 | **v1.3-sorting** | **Sorting (current)**                      |
 
 

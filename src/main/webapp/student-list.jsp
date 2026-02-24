@@ -1,4 +1,6 @@
 <%@ page import="java.util.*, com.nsgacademy.crudmvc.model.Student" %>
+<%@ page import="com.nsgacademy.crudmvc.auth.model.User" %> <%-- 🔥 NEW: import User --%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,8 +15,22 @@
 
 <body class="container mt-4">
 
+<%
+    User loggedUser = (User) session.getAttribute("user"); // 🔥 NEW
+    if (loggedUser == null) { // 🔥 NEW
+        response.sendRedirect("login.jsp"); // 🔥 NEW
+        return; // 🔥 NEW
+    }
+%>
+
 <h2 class="text-center">MVC CRUD Application</h2>
 <h5 class="text-center mb-4">JSP + Servlet + PostgreSQL</h5>
+
+<!-- 🔥 NEW: welcome + logout bar -->
+<div class="text-end mb-3">
+    Welcome <strong><%= loggedUser.getName() %></strong> |
+    <a href="logout" class="text-danger">Logout</a>
+</div>
 
 <%
     String success = request.getParameter("success");

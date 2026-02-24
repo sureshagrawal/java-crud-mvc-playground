@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="com.nsgacademy.crudmvc.model.Student" %>
+<%@ page import="com.nsgacademy.crudmvc.auth.model.User" %> <%-- 🔥 NEW: import User --%>
 
 <!doctype html>
 <html lang="en">
@@ -18,8 +19,22 @@
 <body>
 <div class="container my-5">
 
+    <%
+        User loggedUser = (User) session.getAttribute("user"); // 🔥 NEW
+        if (loggedUser == null) { // 🔥 NEW
+            response.sendRedirect("login.jsp"); // 🔥 NEW
+            return; // 🔥 NEW
+        }
+    %>
+
     <h2 class="text-center mb-3">MVC CRUD Application</h2>
     <h5 class="text-center mb-4">JSP + Servlet + PostgreSQL</h5>
+
+    <!-- 🔥 NEW: welcome + logout -->
+    <div class="text-end mb-3">
+        Welcome <strong><%= loggedUser.getName() %></strong> |
+        <a href="logout" class="text-danger">Logout</a>
+    </div>
 
     <%
         Student student = (Student) request.getAttribute("student");
